@@ -4,7 +4,7 @@
     <img src="https://raw.githubusercontent.com/Farama-Foundation/Gymnasium/main/gymnasium-text.png" width="500px"/>
 </p>
 
-This is an project that introduces new feature to original gymnasium project for scientific research. 
+This is an project that introduces new feature to original gymnasium project (v0.28.1)[https://github.com/Farama-Foundation/Gymnasium/releases/tag/v0.28.1] for scientific research. 
 
 Gymnasium is an open source Python library for developing and comparing reinforcement learning algorithms by providing a standard API to communicate between learning algorithms and environments, as well as a standard set of environments compliant with that API. This is a fork of OpenAI's [Gym](https://github.com/openai/gym) library by it's maintainers (OpenAI handed over maintenance a few years ago to an outside team), and is where future maintenance will occur going forward.
 
