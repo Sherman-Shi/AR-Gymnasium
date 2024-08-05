@@ -55,6 +55,14 @@ class PassiveEnvChecker(gym.Wrapper, gym.utils.RecordConstructorArgs):
             return env_reset_passive_checker(self.env, **kwargs)
         else:
             return self.env.reset(**kwargs)
+        
+    def reset_with_cost(self, **kwargs):
+        """Resets the environment that on the first call will run the `passive_env_reset_check`."""
+        if self.checked_reset is False:
+            self.checked_reset = True
+            return env_reset_passive_checker(self.env, **kwargs)
+        else:
+            return self.env.reset_with_cost(**kwargs)
 
     def render(self, *args, **kwargs):
         """Renders the environment that on the first call will run the `passive_env_render_check`."""

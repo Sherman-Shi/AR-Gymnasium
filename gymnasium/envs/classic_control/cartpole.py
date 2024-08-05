@@ -103,6 +103,8 @@ class CartPoleEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
         self.theta_threshold_radians = 12 * 2 * math.pi / 360
         self.x_threshold = 2.4
 
+        self.reset_cost_parameter = 5 
+
         # Angle limit set to 2 * theta_threshold_radians so failing observation
         # is still within bounds.
         high = np.array(
@@ -209,6 +211,37 @@ class CartPoleEnv(gym.Env[np.ndarray, Union[int, np.ndarray]]):
             self.render()
         return np.array(self.state, dtype=np.float32), {}
 
+    def reset_cost_function(
+        self,
+        current_state: np.ndarray,
+        reset_state: np.ndarray,
+    ) -> float:
+        return self.reset_cost_parameter * np.linalg.norm(current_state - reset_state)
+
+    def reset_with_cost(
+        self,
+        reset_state: np.ndarray = None, 
+        *,
+        seed: Optional[int] = None,
+        options: Optional[dict] = None,
+    ):
+        super().reset(seed=seed)
+        # Note that if you use custom reset bounds, it may lead to out-of-bound
+        # state/observations.
+        low, high = utils.maybe_parse_reset_bounds(
+            options, -0.05, 0.05  # default low
+        )  # default high
+        #self.state = self.np_random.uniform(low=low, high=high, size=(4,))
+        
+        cost = self.reset_cost_function(self.state, reset_state)
+        self.state = reset_state
+        self.steps_beyond_terminated = None
+
+
+        if self.render_mode == "human":
+            self.render()
+        return np.array(self.state, dtype=np.float32), cost, {}
+    
     def render(self):
         if self.render_mode is None:
             assert self.spec is not None

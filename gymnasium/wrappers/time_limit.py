@@ -73,7 +73,19 @@ class TimeLimit(gym.Wrapper, gym.utils.RecordConstructorArgs):
         """
         self._elapsed_steps = 0
         return self.env.reset(**kwargs)
+    
+    def reset_with_cost(self, **kwargs):
+        """Resets the environment with :param:`**kwargs` and sets the number of steps elapsed to zero.
 
+        Args:
+            **kwargs: The kwargs to reset the environment with
+
+        Returns:
+            The reset environment
+        """
+        self._elapsed_steps = 0
+        return self.env.reset_with_cost(**kwargs)
+    
     @property
     def spec(self) -> EnvSpec | None:
         """Modifies the environment spec to include the `max_episode_steps=self._max_episode_steps`."""

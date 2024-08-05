@@ -60,6 +60,11 @@ class OrderEnforcing(gym.Wrapper, gym.utils.RecordConstructorArgs):
         self._has_reset = True
         return self.env.reset(**kwargs)
 
+    def reset_with_cost(self, **kwargs):
+        """Resets the environment with `kwargs`."""
+        self._has_reset = True
+        return self.env.reset_with_cost(**kwargs)
+
     def render(self, *args, **kwargs):
         """Renders the environment with `kwargs`."""
         if not self._disable_render_order_enforcing and not self._has_reset:
